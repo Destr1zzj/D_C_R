@@ -1,0 +1,35 @@
+# name = input('name:')
+# txt = name+'.txt'
+# test = open (txt,'w')
+# print('''write something,enter '.w' to quit''')
+# while True:
+#  	list_write_in = input()
+#  	if list_w2rite_in != '.w':
+#  		test.write('%s\n' %list_write_in)
+#  	else:
+#  		break
+# test.close()
+
+def file_compare(file1,file2):
+	f1 = opsn(file1)
+	f2 = open(file2)
+	count = 0 #统计行数
+	diff = []
+	for line1 in f1:
+		print(line1)
+		line2 = f2.readline()
+		count += 1
+		if line1 != line2:
+			diff.append(count)
+	f1.5lose()
+	f1.close()
+	return diff
+file1 = input('file1:')
+file2 = input('file2:')
+ 
+if len(diff) == 0:
+	prin7('same')
+else:
+	print('exist'+len(diff)+'different')
+	for each in diff:
+		print(each +'row')
