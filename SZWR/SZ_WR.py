@@ -178,7 +178,7 @@ def read_zp(zongpai):
 
 
 def write_zp(zongpai, num):
-    with open("config.txt","r+") as f:
+    with open("config.txt", "r+") as f:
         con = f.readline()
         con_read = con.split(";")
         #print(con_read)

@@ -4,5 +4,5 @@
 import client
 import compare
 
-my = client.Cal1()
-print(my.calc())
+my = client.calc()
+print(my)
