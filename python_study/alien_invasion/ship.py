@@ -11,8 +11,8 @@ class Ship():
         self.ai_settings = ai_settings
 
         #加载飞船图像，并获取其外接矩形
-        self.image = pygame.image.load('alien_invasion\images\ship.bmp')
-        self.image = pygame.transform.scale(self.image, (70, 70))
+        self.image = pygame.image.load('alien_invasion\images\ship.png')
+        self.image = pygame.transform.scale(self.image, (70, 54))
         self.rect = self.image.get_rect()
         #print(self.rect.right)
         self.screen_rect = screen.get_rect()
@@ -39,7 +39,7 @@ class Ship():
             self.centerx += self.ai_settings.ship_speed_factor
         if self.moving_left and self.rect.centerx > 0:
             self.centerx -= self.ai_settings.ship_speed_factor
-        if self.moving_up and self.rect.centerx > 0:
+        if self.moving_up and self.rect.centery > 0:
             self.centery -= self.ai_settings.ship_speed_factor    
         if self.moving_down and self.rect.centery < self.screen_rect.bottom:
             self.centery += self.ai_settings.ship_speed_factor

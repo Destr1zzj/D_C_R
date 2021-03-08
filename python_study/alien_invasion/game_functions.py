@@ -31,6 +31,11 @@ def check_keydown_events(event,ai_settings,screen,ship,bullets):
         elif event.key == pygame.K_SPACE:
             #create bullet
             fire_bullet(event,ai_settings,screen,ship,bullets)
+
+            #快捷推出，可注释
+        elif event.key == pygame.K_q:
+            sys.exit()
+
             
 def check_keyup_events(event,ship):
             if event.key == pygame.K_RIGHT:
@@ -42,7 +47,7 @@ def check_keyup_events(event,ship):
             elif event.key == pygame.K_DOWN:
                 ship.moving_down = False
 
-def update_screen(ai_settings,screen,ship,bullets):
+def update_screen(ai_settings,screen,ship,bullets,alien):
     """刷新屏幕"""
     #每次循环重绘屏幕
 
@@ -50,6 +55,7 @@ def update_screen(ai_settings,screen,ship,bullets):
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     ship.blitme()
+    alien.blitme()
     
 
     #让最近绘制的屏幕可见
@@ -66,3 +72,10 @@ def fire_bullet(event,ai_settings,screen,ship,bullets):
         new_bullet = Bullet(ai_settings,screen,ship)
         #add bullet in Group
         bullets.add(new_bullet)
+
+def teki_pos():
+    import random
+    x = float(random.randint(35,415))
+
+    return x
+    

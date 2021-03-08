@@ -4,6 +4,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from alien import Alien
 import game_functions as gf
 from pygame.sprite import Group
 
@@ -18,6 +19,10 @@ def run_game():
 
     #create a plane
     ship = Ship(ai_settings,screen)
+
+    #creat alien
+    alien = Alien(ai_settings,screen)
+
     bullets = Group()
 
 
@@ -27,7 +32,7 @@ def run_game():
         gf.check_events(ai_settings,screen,ship,bullets)
         ship.update()
         gf.update_bullets(bullets)
-        gf.update_screen(ai_settings,screen,ship,bullets)
+        gf.update_screen(ai_settings,screen,ship,bullets,alien)
 
         
 run_game()
