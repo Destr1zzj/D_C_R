@@ -84,16 +84,16 @@ def teki_pos():
 
 
 def get_number_aliens_x(ai_settings,alien_width):
-    available_space_x = ai_settings.screen_width - 2*alien_width
-    number_aliens_x = int(available_space_x/(2 * alien_width))
+    available_space_x = ai_settings.screen_width - 1*alien_width
+    number_aliens_x = int(available_space_x/(1.5 * alien_width))
     return number_aliens_x
 
 def create_alien(ai_settings,screen,aliens,alien_number,row_number):
     alien = Alien(ai_settings,screen)
     alien_width = alien.rect.width 
-    alien.x = alien_width + 2 * alien_width * alien_number
+    alien.x = alien_width + 1 * alien_width * alien_number
     alien.rect.x = alien.x
-    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+    alien.rect.y = alien.rect.height + 1 * alien.rect.height * row_number
     aliens.add(alien)
 
 def get_number_rows(ai_settings,ship_height,alien_height):
@@ -113,4 +113,25 @@ def create_fleet(ai_settings,screen,ship,aliens):
     for row_number in range(number_rows):
         for alien_number in range(number_aliens_x):
             create_alien(ai_settings,screen,aliens,alien_number,row_number)
+
+def update_aliens(ai_settings,aliens):
+    "检测是否到边缘，并且更新到整群外星人的位置"
+    check_fleet_edges(ai_settings,aliens)
+    aliens.update()
+
+
+def check_fleet_edges(ai_settings,aliens):
+    #check if is edge
+    for alien in aliens.sprites():
+        if alien.check_edges():
+            change_fleet_direction(ai_settings,aliens)
+            break
+
+def change_fleet_direction(ai_settings,aliens):
+    "change direction"
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction *= -1
+
+
         
