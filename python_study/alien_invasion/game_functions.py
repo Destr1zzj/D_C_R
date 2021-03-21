@@ -64,11 +64,22 @@ def update_screen(ai_settings,screen,ship,bullets,aliens):
     #让最近绘制的屏幕可见
     pygame.display.flip()
 
-def update_bullets(bullets):
+def update_bullets(bullets,aliens,ai_settings,screen,ship):
     bullets.update()
     for bullet in bullets:
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+    check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship)
+    
+
+def check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship):
+    "check if any bullet hit aliens,if yes delete bullet and alien"
+    collisions = pygame.sprite.groupcollide(bullets,aliens,True,True)
+
+    if len(aliens) == 0:
+        #删除子弹，创建新外星人
+        bullets.empty()
+        create_fleet(ai_settings,screen,ship,aliens)
 
 def fire_bullet(event,ai_settings,screen,ship,bullets):
     if len(bullets) < ai_settings.bullets_allowed:
@@ -114,11 +125,13 @@ def create_fleet(ai_settings,screen,ship,aliens):
         for alien_number in range(number_aliens_x):
             create_alien(ai_settings,screen,aliens,alien_number,row_number)
 
-def update_aliens(ai_settings,aliens):
+def update_aliens(ai_settings,aliens,ship):
     "检测是否到边缘，并且更新到整群外星人的位置"
     check_fleet_edges(ai_settings,aliens)
     aliens.update()
 
+    if pygame.sprite.spritecollideany(ship,aliens):
+        print("ship hit!!!!")
 
 def check_fleet_edges(ai_settings,aliens):
     #check if is edge
