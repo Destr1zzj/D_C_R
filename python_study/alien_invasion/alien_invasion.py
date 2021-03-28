@@ -9,6 +9,7 @@ from pygame.sprite import Group
 from alien import Alien
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 def run_game():
     pygame.init()
@@ -19,6 +20,8 @@ def run_game():
     play_button = Button(ai_settings,screen,"Play")
 
     stats = GameStats(ai_settings)
+
+    sb = Scoreboard(ai_settings,screen,stats)
 
     #设置背景色：
     #bg_color = (128,128,128)
@@ -42,10 +45,10 @@ def run_game():
 
         if stats.game_active:
             ship.update()
-            gf.update_bullets(bullets,aliens,ai_settings,screen,ship)
+            gf.update_bullets(bullets,aliens,ai_settings,screen,ship,sb,stats)
             gf.update_aliens(ai_settings,aliens,ship,screen,bullets,stats)
         
-        gf.update_screen(ai_settings,screen,ship,bullets,aliens,stats,play_button)
+        gf.update_screen(ai_settings,screen,ship,bullets,aliens,stats,play_button,sb)
             # gf.update_screen(ai_settings,screen,ship,bullets,aliens)
         
 run_game()

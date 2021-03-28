@@ -57,7 +57,7 @@ def check_keyup_events(event,ship):
         elif event.key == pygame.K_DOWN:
             ship.moving_down = False
 
-def update_screen(ai_settings,screen,ship,bullets,aliens,stats,play_button):
+def update_screen(ai_settings,screen,ship,bullets,aliens,stats,play_button,sb):
     """刷新屏幕"""
     #每次循环重绘屏幕
 
@@ -67,27 +67,36 @@ def update_screen(ai_settings,screen,ship,bullets,aliens,stats,play_button):
     ship.blitme()
     #alien.blitme()
     aliens.draw(screen)
+    sb.show_score()
     
     if not stats.game_active:
         play_button.draw_button()
     #让最近绘制的屏幕可见
     pygame.display.flip()
 
-def update_bullets(bullets,aliens,ai_settings,screen,ship):
+def update_bullets(bullets,aliens,ai_settings,screen,ship,sb,stats):
     bullets.update()
     for bullet in bullets:
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
-    check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship)
+    check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship,sb,stats)
     
 
-def check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship):
+def check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship,sb,stats):
     "check if any bullet hit aliens,if yes delete bullet and alien"
     collisions = pygame.sprite.groupcollide(bullets,aliens,True,True)
+
+    if collisions:
+        #print(collisions)
+        for aliens in collisions.values():
+            stats.score  += ai_settings.alien_points * len(aliens)
+
+            sb.prep_score()
 
     if len(aliens) == 0:
         #删除子弹，创建新外星人
         bullets.empty()
+        ai_settings.increase_speed()
         create_fleet(ai_settings,screen,ship,aliens)
 
 def fire_bullet(event,ai_settings,screen,ship,bullets):
@@ -173,6 +182,7 @@ def ship_hit(ai_settings,stats,screen,ship,aliens,bullets):
     
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
 
  
 
@@ -186,6 +196,8 @@ def check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_
     
     button_clicked = play_button.rect.collidepoint(mouse_x,mouse_y)
     if button_clicked and not stats.game_active:
+        pygame.mouse.set_visible(False)
+        ai_settings.initialize_dynamic_settings()
         stats.reset_stats()
         stats.game_active = True
 

@@ -10,7 +10,7 @@ class Bullet(Sprite):
         self.screen = screen
 
         self.image = pygame.image.load('alien_invasion\images\\bullet.bmp')
-        self.image = pygame.transform.scale(self.image, (7, 7))
+        self.image = pygame.transform.scale(self.image, (200, 7))
 
         self.rect = self.image.get_rect()
 
@@ -30,7 +30,7 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """在指定位置画bullet"""
         self.screen.blit(self.image,self.rect)
-        
+
 
 
 
