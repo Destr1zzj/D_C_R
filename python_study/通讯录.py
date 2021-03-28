@@ -10,6 +10,7 @@ fieldValues = g.multenterbox(msg,title,fieldNames)
 
 while 1:
     if fieldValues == None:
+        
         break
     errmsg = ""
     for i in range(len(fieldNames)):

@@ -30,6 +30,7 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """在指定位置画bullet"""
         self.screen.blit(self.image,self.rect)
+        
 
 
 

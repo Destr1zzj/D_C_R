@@ -49,7 +49,7 @@ def search_file(start_dir):
             os.chdir(os.pardir)
 
 target = ['.c','.cpp','.py','.cc','.java','.pas','.asm']
-file_list = {
+file_list = {}
 source_list = {}
 
 g.msgbox("请打开代码文件夹......\\","统计代码量")

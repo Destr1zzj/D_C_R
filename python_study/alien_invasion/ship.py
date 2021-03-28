@@ -51,3 +51,10 @@ class Ship():
     def blitme(self):
         """在指定位置画飞机"""
         self.screen.blit(self.image,self.rect)
+
+    def center_ship(self):
+        print(self.centerx,self.centery )
+        self.centerx = self.screen_rect.centerx
+        
+        self.centery = self.screen_rect.bottom -25
+        print(self.centerx,self.centery )
