@@ -9,7 +9,7 @@ from time import sleep
 
 
 
-def check_events(ai_settings,screen,ship,bullets,stats,play_button,aliens):
+def check_events(ai_settings,screen,ship,bullets,stats,play_button,aliens,sb):
     #监听键盘和鼠标事件
     for event in pygame.event.get():
         #print(event)
@@ -24,7 +24,7 @@ def check_events(ai_settings,screen,ship,bullets,stats,play_button,aliens):
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x,mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_x,mouse_y,ship) 
+            check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_x,mouse_y,ship,sb) 
 
 def check_keydown_events(event,ai_settings,screen,ship,bullets):
     if event.key == pygame.K_RIGHT:
@@ -92,11 +92,17 @@ def check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship,sb,stat
             stats.score  += ai_settings.alien_points * len(aliens)
 
             sb.prep_score()
+        
+        check_high_score(stats,sb)
 
     if len(aliens) == 0:
         #删除子弹，创建新外星人
         bullets.empty()
         ai_settings.increase_speed()
+        
+        #update level
+        stats.level += 1
+        sb.prep_level()
         create_fleet(ai_settings,screen,ship,aliens)
 
 def fire_bullet(event,ai_settings,screen,ship,bullets):
@@ -192,7 +198,7 @@ def check_aliens_bottom(ai_settings,stats,screen,ship,aliens,bullets):
         if alien.rect.bottom >= screen_rect.bottom:
             ship_hit(ai_settings,stats,screen,ship,aliens,bullets)
         
-def check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_x,mouse_y,ship):
+def check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_x,mouse_y,ship,sb):
     
     button_clicked = play_button.rect.collidepoint(mouse_x,mouse_y)
     if button_clicked and not stats.game_active:
@@ -201,9 +207,18 @@ def check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_
         stats.reset_stats()
         stats.game_active = True
 
+        sb.prep_score()
+        sb.prep_high_score()
+        sb.prep_level()
+
         aliens.empty()
         bullets.empty()
 
         create_fleet(ai_settings,screen,ship,aliens)
 
         ship.center_ship()
+
+def check_high_score(stats,sb):
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
