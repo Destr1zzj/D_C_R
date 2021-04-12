@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 import pygame
 import time
+from pygame.sprite import Sprite
 
-class Ship():
+class Ship(Sprite):
 
     def __init__(self,ai_settings,screen):
         """初始化飞船和位置"""
+        super(Ship,self).__init__()
         self.screen = screen
         self.ai_settings = ai_settings
 

@@ -149,15 +149,15 @@ def create_fleet(ai_settings,screen,ship,aliens):
         for alien_number in range(number_aliens_x):
             create_alien(ai_settings,screen,aliens,alien_number,row_number)
 
-def update_aliens(ai_settings,aliens,ship,screen,bullets,stats):
+def update_aliens(ai_settings,aliens,ship,screen,bullets,stats,sb):
     "检测是否到边缘，并且更新到整群外星人的位置"
     check_fleet_edges(ai_settings,aliens)
     aliens.update()
 
     if pygame.sprite.spritecollideany(ship,aliens):
-        ship_hit(ai_settings,stats,screen,ship,aliens,bullets)
+        ship_hit(ai_settings,stats,screen,ship,aliens,bullets,sb)
     
-    check_aliens_bottom(ai_settings,stats,screen,ship,aliens,bullets)
+    check_aliens_bottom(ai_settings,stats,screen,ship,aliens,bullets,sb)
 
 def check_fleet_edges(ai_settings,aliens):
     #check if is edge
@@ -173,11 +173,13 @@ def change_fleet_direction(ai_settings,aliens):
     ai_settings.fleet_direction *= -1
 
 
-def ship_hit(ai_settings,stats,screen,ship,aliens,bullets):
+def ship_hit(ai_settings,stats,screen,ship,aliens,bullets,sb):
     "ship hit by aliens"
     if stats.ship_left > 0:
         stats.ship_left -= 1  
 
+        sb.prep_ships()
+        
         aliens.empty()
         bullets.empty()
 
@@ -192,11 +194,11 @@ def ship_hit(ai_settings,stats,screen,ship,aliens,bullets):
 
  
 
-def check_aliens_bottom(ai_settings,stats,screen,ship,aliens,bullets):
+def check_aliens_bottom(ai_settings,stats,screen,ship,aliens,bullets,sb):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(ai_settings,stats,screen,ship,aliens,bullets)
+            ship_hit(ai_settings,stats,screen,ship,aliens,bullets,sb)
         
 def check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_x,mouse_y,ship,sb):
     
@@ -210,6 +212,7 @@ def check_play_button(ai_settings,screen,aliens,bullets,stats,play_button,mouse_
         sb.prep_score()
         sb.prep_high_score()
         sb.prep_level()
+        sb.prep_ships()
 
         aliens.empty()
         bullets.empty()
