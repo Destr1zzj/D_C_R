@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/first_web.iml" filepath="$PROJECT_DIR$/.idea/first_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../算法和数据结构/.idea/算法和数据结构.iml" filepath="$PROJECT_DIR$/../算法和数据结构/.idea/算法和数据结构.iml" />
     </modules>
   </component>
 </project>
