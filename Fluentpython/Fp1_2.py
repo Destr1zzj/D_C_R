@@ -24,3 +24,6 @@ class Vector:
 
     def __mul__(self, other):
         return Vector(self.x*other, self.y*other)
+
+
+
